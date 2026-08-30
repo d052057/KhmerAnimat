@@ -1,0 +1,120 @@
+.equation {
+  --equation-color: #1a1a1a;
+  --equation-final-color: #b8860b; // gold — shared by the typed hint AND the landed ខម
+  --equation-letter-size: clamp(2.5rem, 6vw, 5rem);
+  --equation-flight-duration: 2.5s;
+  --equation-flight-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --equation-arc-height: 90px;
+
+  position: relative;
+  display: flex;
+  align-items: center; // vertical centering of the row
+  justify-content: center; // horizontal centering
+  flex-wrap: wrap;
+  gap: 0.4em;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  font-family: Moulpali, "Khmer OS", "Noto Sans Khmer", sans-serif;
+  font-size: var(--equation-letter-size);
+  color: var(--equation-color);
+  line-height: 1;
+
+  &__word {
+    white-space: nowrap;
+    min-height: 1em; // keeps layout stable while empty, before typing starts
+  }
+
+  &__operator {
+    opacity: 0.6;
+    padding: 0 0.15em;
+  }
+
+  &__result {
+    position: relative;
+    display: inline-block;
+    min-width: 1.2em;
+    text-align: center;
+  }
+
+  &__placeholder {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+
+  &__combined {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    color: var(--equation-final-color);
+    transform: scale(0.6);
+  }
+
+  &.is-combined &__placeholder {
+    opacity: 0;
+  }
+
+  &.is-combined &__combined {
+    animation: equation-land 1.6s ease forwards;
+  }
+}
+
+// used for both the permanent colored overlay placed over ខ/ម once typed,
+// and the transient clone that arcs away from it during the flight phase
+.equation-flyer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  font-family: Moulpali, "Khmer OS", "Noto Sans Khmer", sans-serif;
+  line-height: 1;
+  will-change: transform, opacity;
+  z-index: 20;
+}
+
+.equation-spark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff8dc 0%, var(--equation-final-color) 55%, transparent 75%);
+  pointer-events: none;
+  z-index: 25;
+  will-change: transform, opacity;
+}
+
+@keyframes equation-land {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  50% {
+    transform: scale(0.92);
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .equation {
+    --equation-flight-duration: 0.3s;
+  }
+  .equation__combined {
+    animation-duration: 0.4s !important;
+  }
+  .equation-spark {
+    display: none;
+  }
+}
