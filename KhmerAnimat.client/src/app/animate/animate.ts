@@ -104,6 +104,22 @@ export class Animate implements AfterViewInit {
   }
 
   /**
+   * getBoundingClientRect()/getClientRects() are always VIEWPORT-relative
+   * (they change with scroll position). Our overlays use `position:
+   * absolute`, which is DOCUMENT-relative. This converts one to the other
+   * at the moment of measurement, so the overlay lands in the right spot
+   * regardless of current scroll offset.
+   */
+  private toDocumentRect(rect: DOMRect): { left: number; top: number; width: number; height: number } {
+    return {
+      left: rect.left + window.scrollX,
+      top: rect.top + window.scrollY,
+      width: rect.width,
+      height: rect.height,
+    };
+  }
+
+  /**
    * Measures the on-screen position of textNode[0..end) ONCE (a plain,
    * one-time snapshot — not something the DOM keeps "live"), then places a
    * separate, permanently-colored span exactly on top of it. The real text
@@ -113,9 +129,10 @@ export class Animate implements AfterViewInit {
     const range = document.createRange();
     range.setStart(textNode, 0);
     range.setEnd(textNode, end);
-    const rect =
+    const viewportRect =
       (range.getClientRects()[0] as DOMRect) ??
       (textNode.parentElement as HTMLElement).getBoundingClientRect();
+    const rect = this.toDocumentRect(viewportRect);
 
     const parentEl = textNode.parentElement as HTMLElement;
     const overlay = document.createElement('span');
@@ -140,8 +157,8 @@ export class Animate implements AfterViewInit {
     duration: number,
     ease: string
   ): Promise<void> {
-    const rect = sourceOverlay.getBoundingClientRect();
-    const t = target.getBoundingClientRect();
+    const rect = this.toDocumentRect(sourceOverlay.getBoundingClientRect());
+    const t = this.toDocumentRect(target.getBoundingClientRect());
     // eslint-disable-next-line no-console
     console.log(
       '[animate]', sourceOverlay.textContent,
@@ -186,7 +203,7 @@ export class Animate implements AfterViewInit {
    * once positioning is confirmed correct. */
   private dropDebugMarker(x: number, y: number, color: string): void {
     const dot = document.createElement('div');
-    dot.style.position = 'fixed';
+    dot.style.position = 'absolute';
     dot.style.left = '0';
     dot.style.top = '0';
     dot.style.width = '12px';
@@ -202,7 +219,7 @@ export class Animate implements AfterViewInit {
   }
 
   private spawnSparkles(target: HTMLElement, color: string): void {
-    const rect = target.getBoundingClientRect();
+    const rect = this.toDocumentRect(target.getBoundingClientRect());
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
     const count = 10;

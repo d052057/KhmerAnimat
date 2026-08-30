@@ -60,10 +60,13 @@
   }
 }
 
-// used for both the permanent colored overlay placed over ខ/ម once typed,
-// and the transient clone that arcs away from it during the flight phase
+// used for the permanent colored overlay placed over ខ/ម once typed, and
+// the transient clone that arcs away from it during the flight phase.
+// ABSOLUTE (not fixed) so it scrolls naturally with the page — a `fixed`
+// element stays locked to the viewport, which drifts away from its target
+// the instant the page's scroll position changes after it was placed.
 .equation-flyer {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   pointer-events: none;
@@ -74,7 +77,7 @@
 }
 
 .equation-spark {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 8px;
