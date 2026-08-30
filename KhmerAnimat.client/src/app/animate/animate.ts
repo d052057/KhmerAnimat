@@ -45,12 +45,23 @@ export class Animate implements AfterViewInit {
     const khEl = this.khWord.nativeElement;
     const moEl = this.moWord.nativeElement;
 
-    // Type both words at once. Each resolves with the permanent, colored
-    // overlay it created over its target letter.
-    const [khOverlay, moOverlay] = await Promise.all([
-      this.typeWord(khEl, this.khFull, this.khHighlightEnd, finalColor),
-      this.typeWord(moEl, this.moFull, this.moHighlightEnd, finalColor),
+    // Type both words fully first — WITHOUT placing any overlay yet. The
+    // words finish at different times (moFull is much shorter than
+    // khFull), and this centered flex row keeps reflowing as long as
+    // either word is still growing. Measuring an overlay's position before
+    // BOTH words are completely done would snapshot a not-yet-final
+    // layout, leaving it stranded once the row settles.
+    const [khTextNode, moTextNode] = await Promise.all([
+      this.typeWord(khEl, this.khFull, this.typeSpeed),
+      this.typeWord(moEl, this.moFull, this.typeSpeed),
     ]);
+
+    // One more frame to be certain layout has fully flushed after the very
+    // last character was appended.
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    const khOverlay = this.createPersistentOverlay(khTextNode, this.khHighlightEnd, finalColor);
+    const moOverlay = this.createPersistentOverlay(moTextNode, this.moHighlightEnd, finalColor);
 
     await new Promise((resolve) => setTimeout(resolve, 600)); // brief pause once typed
 
@@ -68,22 +79,14 @@ export class Animate implements AfterViewInit {
   /**
    * Types `full` into `el` one character at a time by appending to a single
    * Text node (never replacing/recreating it), so Khmer shaping — e.g. the
-   * ខ + coeng + ម subscript stack — stays correct at every step. Once
-   * `highlightEnd` characters have been typed, places a PERMANENT colored
-   * overlay exactly on top of that span of text. This overlay is a plain,
-   * independent DOM element — not a live-tracked Range/Highlight — so it
-   * cannot silently collapse or revert the way the Custom Highlight API did.
+   * ខ + coeng + ម subscript stack — stays correct at every step. Resolves
+   * with that Text node once typing is complete. Does NOT place any
+   * overlay itself — see play() for why that's deferred.
    */
-  private typeWord(
-    el: HTMLElement,
-    full: string,
-    highlightEnd: number,
-    color: string
-  ): Promise<HTMLElement> {
+  private typeWord(el: HTMLElement, full: string, typeSpeed: number): Promise<Text> {
     return new Promise((resolve) => {
       const textNode = document.createTextNode('');
       el.appendChild(textNode);
-      let overlay: HTMLElement | null = null;
 
       let i = 0;
       const tick = () => {
@@ -91,18 +94,12 @@ export class Animate implements AfterViewInit {
         i++;
 
         if (i < full.length) {
-          setTimeout(tick, this.typeSpeed);
+          setTimeout(tick, typeSpeed);
         } else {
-          // The word is fully typed and its layout has settled — including
-          // any pre-base vowel reordering (e.g. ែ visually shifting before
-          // ខ). Only now is it safe to measure and place the overlay;
-          // doing it mid-word left it stranded once later characters
-          // reflowed the cluster's position.
-          overlay = this.createPersistentOverlay(textNode, highlightEnd, color);
-          resolve(overlay as HTMLElement);
+          resolve(textNode);
         }
       };
-      setTimeout(tick, this.typeSpeed);
+      setTimeout(tick, typeSpeed);
     });
   }
 
