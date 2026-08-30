@@ -5,7 +5,6 @@
   --equation-flight-duration: 2.5s;
   --equation-flight-ease: cubic-bezier(0.65, 0, 0.35, 1);
   --equation-arc-height: 90px;
-
   position: relative;
   display: flex;
   align-items: center; // vertical centering of the row
@@ -20,7 +19,8 @@
   font-size: var(--equation-letter-size);
   color: var(--equation-color);
   line-height: 1;
-  background-color:wheat;
+  background-color: wheat;
+  
   &__word {
     white-space: nowrap;
     min-height: 1em; // keeps layout stable while empty, before typing starts

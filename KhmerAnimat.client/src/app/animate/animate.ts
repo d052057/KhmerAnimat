@@ -45,6 +45,13 @@ export class Animate implements AfterViewInit {
     const khEl = this.khWord.nativeElement;
     const moEl = this.moWord.nativeElement;
 
+    // eslint-disable-next-line no-console
+    console.log('[animate] khEl BEFORE typing:', JSON.stringify(khEl.getBoundingClientRect()));
+    // eslint-disable-next-line no-console
+    console.log('[animate] moEl BEFORE typing:', JSON.stringify(moEl.getBoundingClientRect()));
+    // eslint-disable-next-line no-console
+    console.log('[animate] all .equation__word rects:', Array.from(document.querySelectorAll('.equation__word')).map((el) => JSON.stringify(el.getBoundingClientRect())));
+
     // Type both words fully first — WITHOUT placing any overlay yet. The
     // words finish at different times (moFull is much shorter than
     // khFull), and this centered flex row keeps reflowing as long as
@@ -55,6 +62,15 @@ export class Animate implements AfterViewInit {
       this.typeWord(khEl, this.khFull, this.typeSpeed),
       this.typeWord(moEl, this.moFull, this.typeSpeed),
     ]);
+
+    // eslint-disable-next-line no-console
+    console.log('[animate] khEl AFTER typing:', JSON.stringify(khEl.getBoundingClientRect()));
+    // eslint-disable-next-line no-console
+    console.log('[animate] moEl AFTER typing:', JSON.stringify(moEl.getBoundingClientRect()));
+    // eslint-disable-next-line no-console
+    console.log('[animate] khTextNode === khEl.firstChild?', khTextNode === khEl.firstChild);
+    // eslint-disable-next-line no-console
+    console.log('[animate] moTextNode === moEl.firstChild?', moTextNode === moEl.firstChild);
 
     // One more frame to be certain layout has fully flushed after the very
     // last character was appended.
