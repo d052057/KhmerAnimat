@@ -23,6 +23,12 @@ export class Animate implements AfterViewInit {
     const root = this.host.nativeElement.querySelector<HTMLElement>('.equation');
     if (!root) return;
 
+    // Defensive cleanup: with Angular's dev-mode HMR, this component can
+    // re-run without a full page reload. Our overlays/clones live on
+    // document.body (outside Angular's view tree), so a stale run's
+    // elements would otherwise never get removed and pile up over time.
+    document.querySelectorAll('.equation-flyer, .equation-spark').forEach((el) => el.remove());
+
     document.fonts.ready.then(() => {
       requestAnimationFrame(() => this.play(root));
     });
@@ -138,11 +144,14 @@ export class Animate implements AfterViewInit {
     ease: string
   ): Promise<void> {
     const rect = sourceOverlay.getBoundingClientRect();
+    const t = target.getBoundingClientRect();
+    // eslint-disable-next-line no-console
+    console.log('[animate] flying', sourceOverlay.textContent, 'from', rect, 'to', t);
+
     const clone = sourceOverlay.cloneNode(true) as HTMLElement;
     clone.style.transform = `translate(${rect.left}px, ${rect.top}px)`;
     document.body.appendChild(clone);
 
-    const t = target.getBoundingClientRect();
     const sx = rect.left + rect.width / 2;
     const sy = rect.top + rect.height / 2;
     const tx = t.left + t.width / 2;
