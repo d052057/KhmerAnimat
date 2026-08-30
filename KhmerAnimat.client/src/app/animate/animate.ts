@@ -27,7 +27,7 @@ export class Animate implements AfterViewInit {
     // re-run without a full page reload. Our overlays/clones live on
     // document.body (outside Angular's view tree), so a stale run's
     // elements would otherwise never get removed and pile up over time.
-    document.querySelectorAll('.equation-flyer, .equation-spark').forEach((el) => el.remove());
+    document.querySelectorAll('.equation-flyer, .equation-spark, .equation-debug-marker').forEach((el) => el.remove());
 
     document.fonts.ready.then(() => {
       requestAnimationFrame(() => this.play(root));
@@ -146,7 +146,13 @@ export class Animate implements AfterViewInit {
     const rect = sourceOverlay.getBoundingClientRect();
     const t = target.getBoundingClientRect();
     // eslint-disable-next-line no-console
-    console.log('[animate] flying', sourceOverlay.textContent, 'from', rect, 'to', t);
+    console.log(
+      '[animate]', sourceOverlay.textContent,
+      'source:', rect.left.toFixed(0), rect.top.toFixed(0), rect.width.toFixed(0), rect.height.toFixed(0),
+      'target:', t.left.toFixed(0), t.top.toFixed(0), t.width.toFixed(0), t.height.toFixed(0)
+    );
+    this.dropDebugMarker(rect.left + rect.width / 2, rect.top + rect.height / 2, 'blue');
+    this.dropDebugMarker(t.left + t.width / 2, t.top + t.height / 2, 'red');
 
     const clone = sourceOverlay.cloneNode(true) as HTMLElement;
     clone.style.transform = `translate(${rect.left}px, ${rect.top}px)`;
@@ -175,6 +181,27 @@ export class Animate implements AfterViewInit {
 
     await clone.animate(keyframes, { duration, easing: ease, fill: 'forwards' }).finished;
     clone.remove();
+  }
+
+  /** TEMPORARY DEBUG HELPER: drops a small fixed, colored dot at the given
+   * viewport coordinates, so we can SEE where the code thinks a rect is,
+   * directly on the page — no DevTools object-expansion needed. Remove
+   * once positioning is confirmed correct. */
+  private dropDebugMarker(x: number, y: number, color: string): void {
+    const dot = document.createElement('div');
+    dot.style.position = 'fixed';
+    dot.style.left = '0';
+    dot.style.top = '0';
+    dot.style.width = '12px';
+    dot.style.height = '12px';
+    dot.style.borderRadius = '50%';
+    dot.style.background = color;
+    dot.style.border = '2px solid white';
+    dot.style.zIndex = '9999';
+    dot.style.pointerEvents = 'none';
+    dot.style.transform = `translate(${x - 6}px, ${y - 6}px)`;
+    dot.className = 'equation-debug-marker';
+    document.body.appendChild(dot);
   }
 
   private spawnSparkles(target: HTMLElement, color: string): void {
