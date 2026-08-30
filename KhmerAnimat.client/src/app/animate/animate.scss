@@ -20,7 +20,7 @@
   font-size: var(--equation-letter-size);
   color: var(--equation-color);
   line-height: 1;
-
+  background-color:wheat;
   &__word {
     white-space: nowrap;
     min-height: 1em; // keeps layout stable while empty, before typing starts
