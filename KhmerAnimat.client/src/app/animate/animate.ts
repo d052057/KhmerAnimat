@@ -11,11 +11,15 @@ export class Animate implements AfterViewInit {
   @ViewChild('moWord') moWord!: ElementRef<HTMLElement>;
   @ViewChild('resultSlot') resultSlot!: ElementRef<HTMLElement>;
 
+  kha = 'ខ\u200C';
+  ro = 'រ';
+  e = 'ែ';
+  m = '្ម';
   private readonly khFull = 'ខ្មែរ';
   private readonly moFull = 'មន';
   private readonly typeSpeed = 180; // ms per character
 
-  constructor(private host: ElementRef<HTMLElement>) {}
+  constructor(private host: ElementRef<HTMLElement>) { }
 
   ngAfterViewInit(): void {
     const root = this.host.nativeElement.querySelector<HTMLElement>('.equation');

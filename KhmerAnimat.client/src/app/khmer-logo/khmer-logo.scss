@@ -1,0 +1,66 @@
+/* Center everything horizontally and vertically on the screen */
+.page-viewport-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+
+/* Container keeping all equation components grouped */
+.khmer-equation-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 36px;
+}
+
+/* Container dimensions scaled tall enough for unrestricted Moulpali glyph features */
+.svg-container-word1 {
+  display: inline-block;
+  width: 360px;
+  height: 320px; /* Increased from 240px */
+}
+
+.svg-container-word2 {
+  display: inline-block;
+  width: 360px;
+  height: 320px; /* Increased from 240px */
+}
+
+.svg-container-word3 {
+  display: inline-block;
+  width: 360px;
+  height: 320px; /* Increased from 240px */
+}
+
+/* New: Since text shifted down, we updated translateY to realign operators */
+.operator-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(8px); /* Shift adjustment for optimal vertical balance */
+}
+
+/* Base font layout configurations */
+.khmer-text {
+  font-family: 'Moulpali', 'Khmer OS Muol Light', sans-serif;
+  font-size: 168px;
+  font-weight: bold;
+}
+
+/* Symmetrical scaling for standard text operators (+ and =) */
+.khmer-text.operator {
+  font-size: 96px;
+  color: #333333;
+}
+
+.blue-text {
+  fill: #0033a0;
+}
+
+.red-text {
+  fill: #e50000;
+}
