@@ -75,8 +75,7 @@
 .flying-char-ka {
   opacity: 0;
   transform: translate(0, 0);
-  /* Extended track length from 5.5s to 8.5s for a heavily slowed down glide */
-  animation: glideAndSnapKa 8.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  animation: glideAndSnapKa 5.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
   animation-delay: 4.4s;
 }
 
@@ -84,82 +83,95 @@
 .flying-char-mo {
   opacity: 0;
   transform: translate(0, 0);
-  /* Extended track length from 5.5s to 8.5s for a heavily slowed down glide */
-  animation: glideAndSnapMo 8.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  animation: glideAndSnapMo 5.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
   animation-delay: 4.4s;
 }
 
 @keyframes glideAndSnapKa {
+  /* 1. START STATE: Invisible and Blue (#0033a0) */
   0% {
     opacity: 0;
+    fill: #0033a0;
     transform: translate(0, 0);
   }
-
+  /* 2. LAUNCH: Smoothly turns fully Red (#e50000) by the time it lifts into the lane */
   15% {
     opacity: 1;
+    fill: #e50000;
     transform: translate(0, -120px);
   }
-  /* Retained percentage anchors relative to the new slower 8.5s total duration */
+  /* Holds steady in the upper row lane */
   45%, 72% {
     transform: translate(840px, -120px);
     opacity: 1;
+    fill: #e50000;
   }
-
+  /* Drops past center down to bounce point */
   84% {
     transform: translate(840px, 150px);
     opacity: 1;
+    fill: #e50000;
   }
-
+  /* Settles into position */
   92% {
     transform: translate(840px, 0);
     opacity: 1;
+    fill: #e50000;
   }
-
+  /* Fades out seamlessly at the end */
   100% {
     transform: translate(840px, 0);
     opacity: 0;
+    fill: #e50000;
   }
 }
 
 @keyframes glideAndSnapMo {
+  /* 1. START STATE: Invisible and Blue (#0033a0) */
   0% {
     opacity: 0;
+    fill: #0033a0;
     transform: translate(0, 0);
   }
-
+  /* 2. LAUNCH: Smoothly turns fully Red (#e50000) by the time it drops into the lane */
   15% {
     opacity: 1;
+    fill: #e50000;
     transform: translate(0, 120px);
   }
-  /* Retained percentage anchors relative to the new slower 8.5s total duration */
+  /* Holds steady in the lower row lane */
   45%, 72% {
     transform: translate(597px, 120px);
     opacity: 1;
+    fill: #e50000;
   }
-
+  /* Rises past center up to bounce point */
   84% {
     transform: translate(597px, -150px);
     opacity: 1;
+    fill: #e50000;
   }
-
+  /* Settles into position */
   92% {
     transform: translate(597px, 0);
     opacity: 1;
+    fill: #e50000;
   }
-
+  /* Fades out seamlessly at the end */
   100% {
     transform: translate(597px, 0);
     opacity: 0;
+    fill: #e50000;
   }
 }
+
 
 /* --- Step 3: Sparkle, Pulse & Scale Lock Sequence (Stops after 3 times) --- */
 .sparkling-result {
   opacity: 0;
   transform-origin: 1092px 220px;
   animation: finalLock 0.5s ease-out forwards, sparklePulse 1.8s ease-in-out 3 forwards;
-  /* Pushed delays back from 9.6s/10.1s to 12.2s/12.7s to account for the slower 8.5s flight track (4.4s delay + 7.8s arrival marker) */
-  animation-delay: 12.2s, 12.7s;
+  animation-delay: 9.6s, 10.1s;
 }
 
 @keyframes finalLock {
@@ -193,9 +205,9 @@
 /* --- Synchronized Red Reveal on Source Words --- */
 .final-red-source {
   opacity: 0;
+  /* Fades in cleanly over 0.5s right as the flight characters land */
   animation: revealSourceRed 0.5s ease-out forwards;
-  /* Pushed delay back from 9.6s to 12.2s to turn red right as the slow flight elements land */
-  animation-delay: 12.2s;
+  animation-delay: 9.6s;
 }
 
 @keyframes revealSourceRed {
