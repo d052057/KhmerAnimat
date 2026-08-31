@@ -11,7 +11,7 @@
 
 .khmer-equation-matrix {
   width: 1215px;
-  height: 300px;
+  height: 450px;
   display: block;
 }
 
@@ -93,30 +93,35 @@
     opacity: 0;
     fill: #0033a0;
     transform: translate(0, 0);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.4, 1);
   }
   /* 2. LAUNCH: Smoothly turns fully Red (#e50000) by the time it lifts into the lane */
   15% {
     opacity: 1;
     fill: #e50000;
-    transform: translate(0, -120px);
+    transform: translate(0, -130px);
+    animation-timing-function: ease-in-out;
   }
   /* Holds steady in the upper row lane */
   45%, 72% {
-    transform: translate(840px, -120px);
+    transform: translate(840px, -130px);
     opacity: 1;
     fill: #e50000;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
   }
   /* Drops past center down to bounce point */
   84% {
-    transform: translate(840px, 150px);
+    transform: translate(840px, 200px);
     opacity: 1;
     fill: #e50000;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   /* Settles into position */
   92% {
     transform: translate(840px, 0);
     opacity: 1;
     fill: #e50000;
+    animation-timing-function: ease-out;
   }
   /* Fades out seamlessly at the end */
   100% {
@@ -132,30 +137,35 @@
     opacity: 0;
     fill: #0033a0;
     transform: translate(0, 0);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.4, 1);
   }
   /* 2. LAUNCH: Smoothly turns fully Red (#e50000) by the time it drops into the lane */
   15% {
     opacity: 1;
     fill: #e50000;
-    transform: translate(0, 120px);
+    transform: translate(0, 130px);
+    animation-timing-function: ease-in-out;
   }
   /* Holds steady in the lower row lane */
   45%, 72% {
-    transform: translate(597px, 120px);
+    transform: translate(597px, 130px);
     opacity: 1;
     fill: #e50000;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
   }
   /* Rises past center up to bounce point */
   84% {
-    transform: translate(597px, -150px);
+    transform: translate(597px, -200px);
     opacity: 1;
     fill: #e50000;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   /* Settles into position */
   92% {
     transform: translate(597px, 0);
     opacity: 1;
     fill: #e50000;
+    animation-timing-function: ease-out;
   }
   /* Fades out seamlessly at the end */
   100% {
@@ -170,7 +180,7 @@
 .sparkling-result {
   opacity: 0;
   transform-origin: 1092px 220px;
-  animation: finalLock 0.5s ease-out forwards, sparklePulse 1.8s ease-in-out 3 forwards;
+  animation: finalLock 0.5s ease-out forwards, sparklePulse 1.8s ease-in-out 1 forwards;
   animation-delay: 9.6s, 10.1s;
 }
 
@@ -184,22 +194,32 @@
   0% {
     transform: scale(1);
     filter: url(#sparkle-engine) brightness(1);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   35% {
     transform: scale(1.15);
     filter: url(#sparkle-engine) brightness(1.4) drop-shadow(0 0 12px rgba(229,0,0,0.6));
+    animation-timing-function: ease-in-out;
   }
 
   70% {
     transform: scale(0.92);
     filter: url(#sparkle-engine) brightness(0.9);
+    animation-timing-function: ease-out;
   }
 
   100% {
     transform: scale(1);
     filter: none;
   }
+}
+
+.flying-char-ka,
+.flying-char-mo,
+.sparkling-result,
+.final-red-source {
+  will-change: transform, opacity, filter;
 }
 
 /* --- Synchronized Red Reveal on Source Words --- */
