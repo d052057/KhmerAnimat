@@ -18,37 +18,20 @@
 }
 
 /* Container dimensions scaled tall enough for unrestricted Moulpali glyph features */
-.svg-container-word1 {
-  display: inline-block;
-  width: 360px;
-  height: 320px; /* Increased from 240px */
-}
-
-.svg-container-word2 {
-  display: inline-block;
-  width: 360px;
-  height: 320px; /* Increased from 240px */
-}
-
+.svg-container-word1,
+.svg-container-word2,
 .svg-container-word3 {
   display: inline-block;
   width: 360px;
-  height: 320px; /* Increased from 240px */
+  height: 320px;
 }
 
-/* New: Since text shifted down, we updated translateY to realign operators */
-.operator-wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(8px); /* Shift adjustment for optimal vertical balance */
-}
-
-/* Base font layout configurations */
+/* Base font layout configurations using your locally hosted assets */
 .khmer-text {
   font-family: 'Moulpali', 'Khmer OS Muol Light', sans-serif;
   font-size: 168px;
   font-weight: bold;
+  user-select: none;
 }
 
 /* Symmetrical scaling for standard text operators (+ and =) */
@@ -63,4 +46,109 @@
 
 .red-text {
   fill: #e50000;
+}
+
+/* --- Animation 1: Sequential Entry Reveal --- */
+.svg-container-word1,
+.operator-wrapper,
+.svg-container-word2,
+.svg-container-word3 {
+  opacity: 0;
+  animation: introduceElement 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes introduceElement {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.operator-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: introduceOperator 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes introduceOperator {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+}
+
+/* Staggered execution delays across the equation timeline */
+.svg-container-word1 {
+  animation-delay: 0.2s;
+}
+
+.khmer-equation-row > .operator-wrapper:nth-of-type(1) {
+  animation-delay: 0.7s;
+}
+
+.svg-container-word2 {
+  animation-delay: 1.2s;
+}
+
+.khmer-equation-row > .operator-wrapper:nth-of-type(2) {
+  animation-delay: 1.7s;
+}
+
+.svg-container-word3 {
+  animation-delay: 2.2s;
+}
+
+/* --- Animation 2: Realtime Clip-Path Sweeps --- */
+#sliding-rect {
+  animation: sweepReveal 2.5s ease-in-out infinite alternate;
+}
+
+#sliding-rect-2 {
+  animation: sweepReveal2 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes sweepReveal {
+  0%, 15% {
+    width: 0;
+  }
+
+  85%, 100% {
+    width: 120px;
+  }
+}
+
+/* Narrowed down width boundary specifically calculated for the glyph width of ម */
+@keyframes sweepReveal2 {
+  0%, 15% {
+    width: 0;
+  }
+
+  85%, 100% {
+    width: 145px;
+  }
+}
+
+/* --- Gentle Hover Scaling Interactions --- */
+.svg-container-word1 svg,
+.svg-container-word2 svg,
+.svg-container-word3 svg {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.svg-container-word1:hover svg,
+.svg-container-word2:hover svg,
+.svg-container-word3:hover svg {
+  transform: scale(1.05);
+  cursor: pointer;
 }
