@@ -1,4 +1,4 @@
-/* Center everything horizontally and vertically on the screen */
+/* --- Canvas Environment Configuration --- */
 .page-viewport-center {
   display: flex;
   justify-content: center;
@@ -9,24 +9,12 @@
   box-sizing: border-box;
 }
 
-/* Container keeping all equation components grouped */
-.khmer-equation-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 36px;
+.khmer-equation-matrix {
+  width: 1215px;
+  height: 300px;
+  display: block;
 }
 
-/* Container dimensions scaled tall enough for unrestricted Moulpali glyph features */
-.svg-container-word1,
-.svg-container-word2,
-.svg-container-word3 {
-  display: inline-block;
-  width: 360px;
-  height: 320px;
-}
-
-/* Base font layout configurations using your locally hosted assets */
 .khmer-text {
   font-family: 'Moulpali', 'Khmer OS Muol Light', sans-serif;
   font-size: 168px;
@@ -34,7 +22,6 @@
   user-select: none;
 }
 
-/* Symmetrical scaling for standard text operators (+ and =) */
 .khmer-text.operator {
   font-size: 96px;
   color: #333333;
@@ -48,19 +35,32 @@
   fill: #e50000;
 }
 
-/* --- Animation 1: Sequential Entry Reveal --- */
-.svg-container-word1,
-.operator-wrapper,
-.svg-container-word2,
-.svg-container-word3 {
+/* --- Step 1: Slowed-Down Base Reveals --- */
+.entry-word1, .entry-op1, .entry-word2, .entry-op2 {
   opacity: 0;
-  animation: introduceElement 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: revealElement 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-@keyframes introduceElement {
+.entry-word1 {
+  animation-delay: 0.4s;
+}
+
+.entry-op1 {
+  animation-delay: 1.4s;
+}
+
+.entry-word2 {
+  animation-delay: 2.4s;
+}
+
+.entry-op2 {
+  animation-delay: 3.4s;
+}
+
+@keyframes revealElement {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(15px);
   }
 
   to {
@@ -69,86 +69,127 @@
   }
 }
 
-.operator-wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  animation: introduceOperator 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+/* --- Step 2: Continuous Cinematic Holding & Spring Landing Animations --- */
+
+/* 'ខ' Flightpath Track */
+.flying-char-ka {
+  opacity: 0;
+  transform: translate(0, 0);
+  animation: glideAndSnapKa 5.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  animation-delay: 4.4s;
 }
 
-@keyframes introduceOperator {
-  from {
+/* 'ម' Flightpath Track */
+.flying-char-mo {
+  opacity: 0;
+  transform: translate(0, 0);
+  animation: glideAndSnapMo 5.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  animation-delay: 4.4s;
+}
+
+@keyframes glideAndSnapKa {
+  0% {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translate(0, 0);
   }
 
+  5% {
+    opacity: 1;
+  }
+
+  15% {
+    transform: translate(0, -120px);
+  }
+  /* Holds steady in the upper row lane */
+  45%, 72% {
+    transform: translate(845px, -120px);
+    opacity: 1;
+  }
+  /* NEW LANDING STEP: Drops past center down to a halfway lower point (+60px) */
+  84% {
+    transform: translate(845px, 150px);
+    opacity: 1;
+  }
+  /* SETTLING STEP: Moves back UP into its normal place (0) */
+  92%, 96% {
+    transform: translate(845px, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(845px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes glideAndSnapMo {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  15% {
+    transform: translate(0, 120px);
+  }
+  /* Holds steady in the lower row lane */
+  45%, 72% {
+    transform: translate(625px, 120px);
+    opacity: 1;
+  }
+  /* NEW LANDING STEP: Rises past center up to a halfway upper point (-60px) */
+  84% {
+    transform: translate(625px, -150px);
+    opacity: 1;
+  }
+  /* SETTLING STEP: Moves back DOWN into its normal place (0) */
+  92%, 96% {
+    transform: translate(625px, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(625px, 0);
+    opacity: 0;
+  }
+}
+
+/* --- Step 3: Sparkle, Pulse & Scale Lock Sequence (Stops after 3 times) --- */
+
+.sparkling-result {
+  opacity: 0;
+  transform-origin: 1092px 220px;
+  animation: finalLock 0.5s ease-out forwards, sparklePulse 1.8s ease-in-out 3 forwards;
+  animation-delay: 9.6s, 10.1s;
+}
+
+@keyframes finalLock {
   to {
     opacity: 1;
-    transform: translateY(8px);
   }
 }
 
-/* Staggered execution delays across the equation timeline */
-.svg-container-word1 {
-  animation-delay: 0.2s;
-}
-
-.khmer-equation-row > .operator-wrapper:nth-of-type(1) {
-  animation-delay: 0.7s;
-}
-
-.svg-container-word2 {
-  animation-delay: 1.2s;
-}
-
-.khmer-equation-row > .operator-wrapper:nth-of-type(2) {
-  animation-delay: 1.7s;
-}
-
-.svg-container-word3 {
-  animation-delay: 2.2s;
-}
-
-/* --- Animation 2: Realtime Clip-Path Sweeps --- */
-#sliding-rect {
-  animation: sweepReveal 2.5s ease-in-out infinite alternate;
-}
-
-#sliding-rect-2 {
-  animation: sweepReveal2 2.5s ease-in-out infinite alternate;
-}
-
-@keyframes sweepReveal {
-  0%, 15% {
-    width: 0;
+@keyframes sparklePulse {
+  0% {
+    transform: scale(1);
+    filter: url(#sparkle-engine) brightness(1);
   }
 
-  85%, 100% {
-    width: 120px;
-  }
-}
-
-/* Narrowed down width boundary specifically calculated for the glyph width of ម */
-@keyframes sweepReveal2 {
-  0%, 15% {
-    width: 0;
+  35% {
+    transform: scale(1.15);
+    filter: url(#sparkle-engine) brightness(1.4) drop-shadow(0 0 12px rgba(229,0,0,0.6));
   }
 
-  85%, 100% {
-    width: 145px;
+  70% {
+    transform: scale(0.92);
+    filter: url(#sparkle-engine) brightness(0.9);
   }
-}
 
-/* --- Gentle Hover Scaling Interactions --- */
-.svg-container-word1 svg,
-.svg-container-word2 svg,
-.svg-container-word3 svg {
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.svg-container-word1:hover svg,
-.svg-container-word2:hover svg,
-.svg-container-word3:hover svg {
-  transform: scale(1.05);
-  cursor: pointer;
+  100% {
+    transform: scale(1);
+    filter: none;
+  }
 }

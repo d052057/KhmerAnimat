@@ -1,61 +1,58 @@
 <div class="page-viewport-center">
-  <div class="khmer-equation-row">
+  <!-- Unified Equation Matrix Container -->
+  <div class="khmer-equation-matrix">
+    <svg xmlns="http://w3.org" viewBox="0 0 1620 400" width="100%" height="100%">
 
-    <!-- Word 1: ខ្មែរ (Base Layer: Blue -> Sweeps to Red) -->
-    <span class="svg-container-word1">
-      <svg xmlns="http://w3.org" viewBox="0 0 400 320" width="100%" height="100%">
-        <defs>
-          <clipPath id="first-letter-clip">
-            <rect id="sliding-rect" x="140" y="0" width="0" height="230" />
-          </clipPath>
-        </defs>
-        <!-- Blue base text, Red animated overlay text -->
-        <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" class="khmer-text blue-text">ខ្មែរ</text>
-        <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" class="khmer-text red-text" clip-path="url(#first-letter-clip)">ខ្មែរ</text>
-      </svg>
-    </span>
+      <defs>
+        <!-- High-Performance Sparkle Glow Engine Filter -->
+        <filter id="sparkle-engine" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="8" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
 
-    <!-- Operator: + -->
-    <span class="operator-wrapper">
-      <span class="khmer-text operator">+</span>
-    </span>
+      <!-- LAYER 1: Base Equation Elements (Fade in sequentially) -->
+      <!-- Word 1 (x=0 to 360) -->
+      <g class="entry-word1">
+        <text x="180" y="220" dominant-baseline="middle" text-anchor="middle" class="khmer-text blue-text">ខ្មែរ</text>
+      </g>
 
-    <!-- Word 2: មន (FIXED OVERLAY ALIGNMENT) -->
-    <span class="svg-container-word2">
-      <svg xmlns="http://w3.org" viewBox="0 0 400 320" width="100%" height="100%">
-        <defs>
-          <clipPath id="second-letter-clip">
-            <rect id="sliding-rect-2" x="50" y="0" width="0" height="320" />
-          </clipPath>
-        </defs>
+      <!-- Operator 1: + (x=360 to 456) -->
+      <g class="entry-op1">
+        <text x="408" y="228" dominant-baseline="middle" text-anchor="middle" class="khmer-text operator">+</text>
+      </g>
 
-        <!-- Base Layer: Both letters are Blue -->
-        <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" class="khmer-text blue-text">
+      <!-- Word 2 (x=456 to 816) -->
+      <g class="entry-word2">
+        <text x="636" y="220" dominant-baseline="middle" text-anchor="middle" class="khmer-text blue-text">
           <tspan>ម</tspan>
           <tspan dx="25">ន</tspan>
         </text>
+      </g>
 
-        <!-- Overlay Layer: Transparent anchor forces perfect stacking position -->
-        <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" class="khmer-text">
-          <tspan class="red-text" clip-path="url(#second-letter-clip)">ម</tspan>
-          <tspan fill="transparent" dx="25">ន</tspan> <!-- This keeps the red ម perfectly on top of the blue ម -->
+      <!-- Operator 2: = (x=816 to 912) -->
+      <g class="entry-op2">
+        <text x="864" y="228" dominant-baseline="middle" text-anchor="middle" class="khmer-text operator">=</text>
+      </g>
+
+      <!-- LAYER 2: Advanced Floating Flight Tracks (No boundaries) -->
+      <!-- Isolated 'ខ' -->
+      <text x="180" y="220" dominant-baseline="middle" text-anchor="middle" class="khmer-text red-text flying-char-ka">ខ</text>
+
+      <!-- Isolated 'ម' -->
+      <text x="570" y="220" dominant-baseline="middle" text-anchor="middle" class="khmer-text red-text flying-char-mo">ម</text>
+
+      <!-- LAYER 3: Target Assembly Landing Lock Zone with Sparkle Glow -->
+      <g class="target-result-word sparkling-result">
+        <!-- Center point for transform actions is set to the text anchor center -->
+        <text x="1092" y="220" dominant-baseline="middle" text-anchor="middle" class="khmer-text red-text">
+          <tspan>ខម</tspan>
         </text>
-      </svg>
-    </span>
+      </g>
 
-    <!-- Operator: = -->
-    <span class="operator-wrapper">
-      <span class="khmer-text operator">=</span>
-    </span>
-
-    <!-- Word 3: ខម -->
-    <span class="svg-container-word3">
-      <svg xmlns="http://w3.org" viewBox="0 0 400 320" width="100%" height="100%">
-        <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" class="khmer-text">
-          <tspan class="red-text">ខម</tspan>
-        </text>
-      </svg>
-    </span>
-
+    </svg>
   </div>
 </div>
