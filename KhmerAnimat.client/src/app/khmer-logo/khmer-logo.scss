@@ -99,12 +99,12 @@
   15% {
     opacity: 1;
     fill: #e50000;
-    transform: translate(0, -130px);
+    transform: translate(0, -200px);
     animation-timing-function: ease-in-out;
   }
-  /* Holds steady in the upper row lane */
-  45%, 72% {
-    transform: translate(840px, -130px);
+  /* Holds steady in the upper row lane (~1s pause at 5.5s total duration) */
+  45%, 63% {
+    transform: translate(840px, -200px);
     opacity: 1;
     fill: #e50000;
     animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
@@ -143,12 +143,12 @@
   15% {
     opacity: 1;
     fill: #e50000;
-    transform: translate(0, 130px);
+    transform: translate(0, 200px);
     animation-timing-function: ease-in-out;
   }
-  /* Holds steady in the lower row lane */
-  45%, 72% {
-    transform: translate(597px, 130px);
+  /* Holds steady in the lower row lane (~1s pause at 5.5s total duration) */
+  45%, 63% {
+    transform: translate(597px, 200px);
     opacity: 1;
     fill: #e50000;
     animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
